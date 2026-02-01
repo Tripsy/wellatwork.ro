@@ -1,0 +1,25 @@
+{
+	"name": "{{app_name}}",
+	"description": "{{app_name}}",
+	"text": {
+		"error_title": "Eroare",
+		"success_title": "Succes",
+		"loading": "Se incarca...",
+		"please_wait": "Te rugam sa astepti...",
+		"saving": "Se salveaza..."
+	},
+	"error": {
+		"generic": "Ceva a mers greșit",
+		"csrf": "A apărut o eroare la procesarea solicitării tale. Te rugăm să reîncarci pagina și să încerci din nou.",
+		"form": "Ceva a mers greșit la procesarea solicitării tale.",
+		"validation": "Validarea formularului a eșuat.",
+		"undefined_route": "Pagina pe care o cauți nu există sau a fost mutată.",
+		"unauthorized": "Acces refuzat. Te rugăm să verifici permisiunile tale",
+		"operation_not_allowed": "Operațiunea nu este permisă"
+	},
+	"email": {
+		"template_not_found": "Șablonul nu a fost găsit (ex: {{label}})",
+		"sent_success": "E-mailul cu subiectul `{{subject}}` a fost trimis cu succes către `{{to}}`",
+		"sent_error": "Trimiterea e-mailului cu subiectul `{{subject}}` către `{{to}}` a eșuat (ex: {{error}})"
+	}
+}

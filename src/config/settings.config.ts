@@ -1,0 +1,111 @@
+import {
+	getObjectValue,
+	type ObjectValue,
+	setObjectValue,
+} from '@/helpers/objects.helper';
+
+type Settings = { [key: string]: ObjectValue };
+
+let settings: Settings;
+
+function getSettings(): Settings {
+	if (!settings) {
+		settings = loadSettings();
+	}
+
+	return settings;
+}
+
+function loadSettings(): Settings {
+	return {
+		app: {
+			debug: process.env.NEXT_PUBLIC_APP_DEBUG === 'true',
+			language: process.env.NEXT_PUBLIC_APP_LANGUAGE || 'en',
+			languageSupported: (
+				process.env.NEXT_PUBLIC_APP_SUPPORTED_LANGUAGES || 'en'
+			)
+				.trim()
+				.split(','),
+			environment: process.env.NODE_ENV || 'development',
+			url: process.env.FRONTEND_URL || 'http://wellawork.test',
+			name: process.env.NEXT_PUBLIC_APP_NAME,
+			rootPath: process.env.ROOT_PATH || '/var/www/html',
+			srcPath: process.env.SRC_PATH || '/var/www/html/src',
+		},
+		security: {
+			allowedOrigins: process.env.ALLOWED_ORIGINS?.split(',').map((v) =>
+				v.trim(),
+			) || ['http://localhost', 'http://wellawork.test'],
+		},
+		csrf: {
+			cookieName: 'x-csrf-secret',
+			cookieMaxAge: 60 * 60, // 1 hour
+			inputName: 'x-csrf-token',
+		},
+		mail: {
+			host: process.env.MAIL_HOST || '127.0.0.1',
+			port: parseInt(process.env.MAIL_PORT || '2525', 10),
+			encryption: process.env.encryption || 'tls',
+			username: process.env.MAIL_USERNAME || '',
+			password: process.env.MAIL_PASSWORD || '',
+		},
+		middleware: {
+			rate_limit_window: Number(process.env.RATE_LIMIT_WINDOW) || 60, // seconds
+			max_requests: Number(process.env.MAX_REQUESTS) || 100, // Max requests per window
+		},
+		redis: {
+			host: process.env.REDIS_HOST || 'localhost',
+			port: process.env.REDIS_PORT || '6379',
+			password: process.env.REDIS_PASSWORD || undefined,
+		},
+		cache: {
+			ttl: process.env.CACHE_TTL || 60,
+		},
+		google: {
+			gtmId: process.env.NEXT_PUBLIC_GOOGLE_GTM_ID || '',
+		},
+		contact: {
+			email:
+				process.env.NEXT_PUBLIC_APP_EMAIL ||
+				'test-team20240828@yopmail.com',
+		},
+	};
+}
+
+export const Configuration = {
+	get: <T = ObjectValue>(key: string): T | undefined => {
+		const value = getObjectValue(getSettings(), key);
+
+		if (value === undefined) {
+			console.warn(`Configuration key not found: ${key}`);
+		}
+
+		return value as T;
+	},
+
+	set: (key: string, value: ObjectValue): void => {
+		const success = setObjectValue(getSettings(), key, value);
+
+		if (!success) {
+			console.warn(`Failed to set configuration key: ${key}`);
+		}
+	},
+
+	isSupportedLanguage: (language: string): boolean => {
+		const languages = Configuration.get<string[]>('app.languageSupported');
+
+		return Array.isArray(languages) && languages.includes(language);
+	},
+
+	environment: () => {
+		return Configuration.get('app.env') as string;
+	},
+
+	isEnvironment: (value: string) => {
+		return Configuration.environment() === value;
+	},
+
+	resolveExtension: () => {
+		return Configuration.environment() === 'production' ? 'js' : 'ts';
+	},
+};

@@ -1,0 +1,14 @@
+{
+	"meta": {
+		"title": "Contact"
+	},
+	"validation": {
+		"name_invalid": "Seteaza nume",
+		"email_invalid": "Seteaza o adresa de email corecta",
+		"message_invalid": "Mesaj lipsa"
+	},
+	"message": {
+		"success": "Mulțumim că ne-ai contactat — îți vom răspunde în curând.",
+		"error": "Nu am putut procesa mesajul tău din cauza unor erori."
+	}
+}

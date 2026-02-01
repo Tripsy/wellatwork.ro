@@ -1,0 +1,124 @@
+import { Leaf, Mail, MapPin, Phone } from 'lucide-react';
+import Link from 'next/link';
+import Routes from '@/config/routes.setup';
+import { Configuration } from '@/config/settings.config';
+
+export const Footer = () => {
+	const currentYear = new Date().getFullYear();
+
+	return (
+		<footer className="bg-muted border-t border-border">
+			<div className="section-container py-12 md:py-16">
+				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
+					{/* Brand */}
+					<div className="lg:col-span-1">
+						<Link
+							href={Routes.get('home')}
+							className="flex items-center gap-2 text-xl font-semibold text-foreground mb-4"
+						>
+							<div className="w-9 h-9 rounded-xl bg-primary flex items-center justify-center">
+								<Leaf className="w-5 h-5 text-primary-foreground" />
+							</div>
+							<span>{Configuration.get('app.name')}</span>
+						</Link>
+						<p className="text-muted-foreground text-sm leading-relaxed">
+							Aducem bunăstarea și relaxarea direct la locul tău
+							de muncă. Transformă biroul într-o oază de calm.
+						</p>
+					</div>
+
+					{/* Quick Links */}
+					<div>
+						<h4 className="font-semibold text-foreground mb-4">
+							Linkuri Rapide
+						</h4>
+						<ul className="space-y-3">
+							{[
+								{ name: 'Acasă', path: '/' },
+								{ name: 'Resurse', path: '/resources' },
+								{ name: 'Contact', path: '/contact' },
+								{ name: 'Termeni și Condiții', path: '/terms' },
+							].map((link) => (
+								<li key={link.path}>
+									<Link
+										href={link.path}
+										className="text-muted-foreground hover:text-primary transition-colors text-sm"
+									>
+										{link.name}
+									</Link>
+								</li>
+							))}
+						</ul>
+					</div>
+
+					{/* Services */}
+					<div>
+						<h4 className="font-semibold text-foreground mb-4">
+							Servicii
+						</h4>
+						<ul className="space-y-3">
+							{[
+								'Masaj pe Scaun',
+								'Workshop-uri',
+								'Programe de Wellness Corporativ',
+								'Servicii de Masaj pentru Evenimente',
+							].map((service) => (
+								<li key={service}>
+									<span className="text-muted-foreground text-sm">
+										{service}
+									</span>
+								</li>
+							))}
+						</ul>
+					</div>
+
+					{/* Contact */}
+					<div>
+						<h4 className="font-semibold text-foreground mb-4">
+							Contactează-ne
+						</h4>
+						<ul className="space-y-3">
+							<li className="flex items-center gap-3 text-muted-foreground text-sm">
+								<Mail className="w-4 h-4 text-primary flex-shrink-0" />
+								<span>contact@serenitytouch.ro</span>
+							</li>
+							<li className="flex items-center gap-3 text-muted-foreground text-sm">
+								<Phone className="w-4 h-4 text-primary flex-shrink-0" />
+								<span>+40 123 456 789</span>
+							</li>
+							<li className="flex items-start gap-3 text-muted-foreground text-sm">
+								<MapPin className="w-4 h-4 text-primary flex-shrink-0 mt-0.5" />
+								<span>
+									Deservim birouri în întreaga zonă
+									metropolitană
+								</span>
+							</li>
+						</ul>
+					</div>
+				</div>
+
+				{/* Bottom Bar */}
+				<div className="mt-12 pt-8 border-t border-border flex flex-col sm:flex-row justify-between items-center gap-4">
+					<p className="text-muted-foreground text-sm">
+						© {currentYear} {Configuration.get('app.name')}. Toate
+						drepturile rezervate.
+					</p>
+					<div className="flex items-center gap-6">
+						<Link
+							href={`${Routes.get('terms')}#privacy-policy`}
+							className="text-muted-foreground hover:text-primary text-sm transition-colors"
+						>
+							Politica de Confidențialitate
+						</Link>
+						<Link
+							href={Routes.get('terms')}
+							className="text-muted-foreground hover:text-primary text-sm transition-colors"
+						>
+							Termeni și Condiții
+						</Link>
+					</div>
+				</div>
+			</div>
+		</footer>
+	);
+};
