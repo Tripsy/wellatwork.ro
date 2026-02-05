@@ -1,6 +1,6 @@
 import { ArrowRight } from 'lucide-react';
 import type { Metadata } from 'next';
-import Image from 'next/image';
+// import Image from 'next/image';
 import Link from 'next/link';
 import { translate } from '@/config/lang';
 import { Configuration } from '@/config/settings.config';
@@ -85,13 +85,13 @@ export default function Page() {
 								href="#"
 								className="group wellness-card p-0 overflow-hidden"
 							>
-								<div className="aspect-[16/10] overflow-hidden">
-									<Image
-										src={article.image}
-										alt={article.title}
-										className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-									/>
-								</div>
+								{/*<div className="aspect-[16/10] overflow-hidden">*/}
+								{/*	<Image*/}
+								{/*		src={article.image}*/}
+								{/*		alt={article.title}*/}
+								{/*		className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"*/}
+								{/*	/>*/}
+								{/*</div>*/}
 								<div className="p-6 md:p-8">
 									<h3 className="mb-3 group-hover:text-primary transition-colors">
 										{article.title}
