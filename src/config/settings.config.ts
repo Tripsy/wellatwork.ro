@@ -22,15 +22,13 @@ function loadSettings(): Settings {
 			debug: process.env.NEXT_PUBLIC_APP_DEBUG === 'true',
 			language: process.env.NEXT_PUBLIC_APP_LANGUAGE || 'en',
 			languageSupported: (
-				process.env.NEXT_PUBLIC_APP_SUPPORTED_LANGUAGES || 'en'
+				process.env.NEXT_PUBLIC_APP_SUPPORTED_LANGUAGES || 'ro'
 			)
 				.trim()
 				.split(','),
 			environment: process.env.NODE_ENV || 'development',
-			url: process.env.FRONTEND_URL || 'http://wellawork.test',
+			url: process.env.NEXT_PUBLIC_APP_URL || 'http://wellawork.test',
 			name: process.env.NEXT_PUBLIC_APP_NAME,
-			rootPath: process.env.ROOT_PATH || '/var/www/html',
-			srcPath: process.env.SRC_PATH || '/var/www/html/src',
 		},
 		security: {
 			allowedOrigins: process.env.ALLOWED_ORIGINS?.split(',').map((v) =>
