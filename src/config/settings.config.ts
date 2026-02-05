@@ -34,7 +34,7 @@ function loadSettings(): Settings {
 			allowedOrigins: process.env.ALLOWED_ORIGINS?.split(',').map((v) =>
 				v.trim(),
 			) || [
-				'https://wellatwork.ro',
+				'https://www.wellatwork.ro',
 				'http://wellatwork.test',
 				'https://main.djcyuviv678xz.amplifyapp.com',
 			],

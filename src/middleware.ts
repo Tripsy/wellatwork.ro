@@ -11,9 +11,13 @@ function blockedOrigin(req: NextRequest) {
 	const origin = req.headers.get('origin');
 	const referer = req.headers.get('referer');
 
-	if (!origin && !referer) return false;
+	if (!origin && !referer) {
+        return false;
+    }
 
-	if (origin && allowedOrigins.includes(origin)) return false;
+	if (origin && allowedOrigins.includes(origin)) {
+        return false;
+    }
 
 	if (referer) {
 		try {
