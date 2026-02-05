@@ -35,7 +35,7 @@ function loadSettings(): Settings {
 		security: {
 			allowedOrigins: process.env.ALLOWED_ORIGINS?.split(',').map((v) =>
 				v.trim(),
-			) || ['http://localhost', 'http://wellawork.test'],
+			) || ['https://wellawork.ro', 'http://wellawork.test', 'https://main.djcyuviv678xz.amplifyapp.com'],
 		},
 		csrf: {
 			cookieName: 'x-csrf-secret',
