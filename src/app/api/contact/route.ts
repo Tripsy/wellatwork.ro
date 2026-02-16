@@ -1,7 +1,7 @@
 import { type NextRequest, NextResponse } from 'next/server';
 import { contactValidate } from '@/app/contact/contact.action';
 import type { ContactFormInput } from '@/app/contact/contact.definition';
-import { translate } from '@/config/lang';
+import { translate } from '@/config/translate.setup';
 import { Configuration } from '@/config/settings.config';
 import { accumulateZodErrors } from '@/helpers/form.helper';
 import { prepareEmailContent, sendEmail } from '@/services/email.service';

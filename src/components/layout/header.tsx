@@ -14,6 +14,7 @@ const navLinks = [
 	{ name: 'Servicii', path: Routes.get('home'), hash: 'servicii' },
 	{ name: 'Beneficii', path: Routes.get('home'), hash: 'beneficii' },
 	{ name: 'Resurse', path: Routes.get('resources') },
+	{ name: 'Unitate protejata', path: Routes.get('unitate-protejata') },
 	{ name: 'Contact', path: Routes.get('contact') },
 ];
 

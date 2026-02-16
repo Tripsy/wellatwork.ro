@@ -3,7 +3,7 @@ import '@/app/globals.css';
 
 import { Footer } from '@/components/layout/footer';
 import { Header } from '@/components/layout/header';
-import { getLanguage } from '@/config/lang';
+import { getLanguage } from '@/config/translate.setup';
 
 export default async function Layout({
 	children,

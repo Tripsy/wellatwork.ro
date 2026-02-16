@@ -1,7 +1,7 @@
 import nodemailer, { type Transporter } from 'nodemailer';
 import type Mail from 'nodemailer/lib/mailer';
 import type SMTPTransport from 'nodemailer/lib/smtp-transport';
-import { translate } from '@/config/lang';
+import { translate } from '@/config/translate.setup';
 import templates from '@/config/nunjucks.config';
 import { Configuration } from '@/config/settings.config';
 import { getErrorMessage } from '@/helpers/system.helper';

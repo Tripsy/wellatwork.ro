@@ -159,6 +159,7 @@ Routes.group('api').add('csrf', '/api/csrf').add('api-contact', '/api/contact');
 Routes.group('public')
 	.add('contact', '/contact')
 	.add('terms', '/terms')
+	.add('unitate-protejata', '/unitate-protejata-autorizata')
 	.add('resources', '/resources');
 
 /**

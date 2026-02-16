@@ -22,8 +22,7 @@ export const Footer = () => {
 							<span>{Configuration.get('app.name')}</span>
 						</Link>
 						<p className="text-muted-foreground text-sm leading-relaxed">
-							Aducem bunăstarea și relaxarea direct la locul tău
-							de muncă. Transformă biroul într-o oază de calm.
+                            Aducem sănătatea și confortul direct în biroul tău. Transformă spațiul de lucru într-o oază de echilibru.
 						</p>
 					</div>
 
@@ -58,10 +57,10 @@ export const Footer = () => {
 						</h4>
 						<ul className="space-y-3">
 							{[
-								'Masaj pe Scaun',
+								'Masaj pe scaun',
+                                'Evaluare posturală',
 								'Workshop-uri',
-								'Programe de Wellness Corporativ',
-								'Servicii de Masaj pentru Evenimente',
+								'Sesiuni ghidate de stretching\n',
 							].map((service) => (
 								<li key={service}>
 									<span className="text-muted-foreground text-sm">
@@ -80,18 +79,11 @@ export const Footer = () => {
 						<ul className="space-y-3">
 							<li className="flex items-center gap-3 text-muted-foreground text-sm">
 								<Mail className="w-4 h-4 text-primary flex-shrink-0" />
-								<span>contact@wellatwork.ro</span>
+								<span>office@s-life.ro</span>
 							</li>
 							<li className="flex items-center gap-3 text-muted-foreground text-sm">
 								<Phone className="w-4 h-4 text-primary flex-shrink-0" />
-								<span>+40 123 456 789</span>
-							</li>
-							<li className="flex items-start gap-3 text-muted-foreground text-sm">
-								<MapPin className="w-4 h-4 text-primary flex-shrink-0 mt-0.5" />
-								<span>
-									Deservim birouri în întreaga zonă
-									metropolitană
-								</span>
+								<span>+40 773 740 744</span>
 							</li>
 						</ul>
 					</div>
@@ -118,6 +110,17 @@ export const Footer = () => {
 						</Link>
 					</div>
 				</div>
+                <div className="mt-8 text-muted-foreground text-sm font-bold">
+                    <p>
+                        Conceptul "{Configuration.get('app.name')}" este un serviciu oferit de Amalfi Consulting,{' '}
+                        <Link
+                            href={`${Routes.get('unitate-protejata')}`}
+                            className="text-muted-foreground underline cursor-pointer hover:text-primary text-sm transition-colors"
+                        >{' '}
+                            Unitate Protejată Autorizată
+                        </Link>{' '} conform Legii nr. 448/2006 privind protecția și promovarea drepturilor persoanelor cu handicap.</p>
+
+                </div>
 			</div>
 		</footer>
 	);

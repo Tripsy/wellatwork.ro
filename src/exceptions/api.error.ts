@@ -9,7 +9,7 @@ export class ApiError extends Error {
 		this.status = status;
 		this.body = body;
 
-		// Maintain proper stack trace
+		// Maintain a proper stack trace
 		if (Error.captureStackTrace) {
 			Error.captureStackTrace(this, ApiError);
 		}

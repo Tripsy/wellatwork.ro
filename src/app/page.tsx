@@ -1,21 +1,21 @@
 import {
-	Armchair,
-	ArrowRight,
-	Building,
-	Clock,
-	GraduationCap,
-	Heart,
-	Shield,
-	Smile,
-	Sparkles,
-	Timer,
-	TrendingUp,
-	Users,
+    Armchair,
+    ArrowRight,
+    Building,
+    Clock,
+    GraduationCap,
+    Heart, PersonStanding,
+    Shield,
+    Smile,
+    Sparkles,
+    Timer,
+    TrendingUp,
+    Users,
 } from 'lucide-react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { translate } from '@/config/lang';
+import { translate } from '@/config/translate.setup';
 import Routes from '@/config/routes.setup';
 import { Configuration } from '@/config/settings.config';
 
@@ -31,23 +31,24 @@ const services = [
 	{
 		id: 'chairMassage',
 		icon: Armchair,
-		title: 'Masaj pe Scaun',
+		title: 'Masaj pe scaun',
 		description:
-			'Sesiuni rapide și eficiente realizate pe un scaun de masaj specializat. Perfect pentru zilele aglomerate—fără uleiuri, fără dezbrăcare.',
+			'Sesiuni individuale realizate de kinetoterapeuți și asistenți balneo-fizio certificați, adaptate mediului de lucru.'
 	},
 	{
 		id: 'expressSession',
-		icon: Timer,
-		title: 'Sesiuni Express',
+		icon: PersonStanding,
+		title: 'Evaluare posturală',
 		description:
-			'Sesiuni de 15-20 minute concentrate pe gât, umeri și spate. Relaxare maximă în timp minim.',
+			'Analiză individuală a posturii și a tiparelor de mișcare si ' +
+            'sesiuni ghidate de stretching.',
 	},
 	{
 		id: 'workshops',
 		icon: GraduationCap,
 		title: 'Workshop-uri',
 		description:
-			'Workshop-uri educaționale despre ergonomie și postură, stretching și aliniere posturală pentru o sănătate mai bună la birou.',
+			'Workshop-uri educaționale despre ergonomie și postură, stretching și aliniere posturală.',
 	},
 ];
 
@@ -76,9 +77,9 @@ const benefits = [
 	{
 		id: 'safety',
 		icon: Shield,
-		title: 'Prevenirea Accidentărilor',
+		title: 'Performanță pe termen lung ',
 		description:
-			'Masajul regulat ajută la prevenirea leziunilor de efort repetitiv și reduce zilele de concediu medical.',
+			'"Sănătatea echipei este infrastructura unei organizații performante."',
 	},
 ];
 
@@ -99,19 +100,16 @@ export default function Page() {
 					<div className="max-w-3xl">
 						<div className="inline-flex items-center gap-2 bg-primary-light text-primary px-4 py-2 rounded-full text-sm font-medium mb-6 animate-fade-in">
 							<Sparkles className="w-4 h-4" />
-							<span>Soluții de Wellness Corporativ</span>
+							<span>Servicii corporate de recuperare și prevenție</span>
 						</div>
 
 						<h1 className="mb-6 animate-fade-in-up">
-							Aducem Bunăstarea{' '}
-							<span className="text-primary">Direct</span> la
-							Locul Tău de Muncă
+                            Performanța începe cu sănătatea
 						</h1>
 
 						<p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-2xl animate-fade-in-up">
-							Transformă biroul într-o oază de calm. Terapeuții
-							noștri certificați vin la tine, ajutând echipa să se
-							simtă revigorată, concentrată și apreciată.
+                            Credem că performanța reală începe cu un corp sănătos și echilibrat.
+                            Oferim servicii specializate de terapie și recuperare direct la locul de muncă, sprijinind companiile să prevină și să reducă disconfortul fizic asociat activităților profesionale.
 						</p>
 
 						<div className="flex flex-col sm:flex-row gap-4 animate-fade-in-up">
@@ -133,25 +131,15 @@ export default function Page() {
 								Despre Noi
 							</span>
 							<h2 className="mt-3 mb-6">
-								Dedicați Bunăstării la Locul de Muncă
+								Dedicați pentru echilibru la locul de muncă
 							</h2>
 							<p className="text-muted-foreground text-lg mb-6">
-								La {Configuration.get('app.name')}, credem că
-								bunăstarea angajaților este fundamentul unui loc
-								de muncă prosper. Din 2015, aducem terapia de
-								masaj profesională direct la birouri, ajutând
-								companiile să investească în cel mai valoros
-								activ al lor—oamenii.
+                                Oferim servicii specializate de terapie și recuperare direct la locul de muncă,
+                                sprijinind companiile să prevină și să reducă disconfortul fizic asociat activităților profesionale.
 							</p>
 							<p className="text-muted-foreground mb-8">
-								Terapeuții noștri certificați sunt instruiți să
-								lucreze în medii de birou, oferind servicii
-								discrete și profesionale care se integrează
-								perfect în programul de lucru. Fie că este vorba
-								de o zi de wellness lunară sau sesiuni
-								săptămânale regulate, adaptăm abordarea la
-								nevoile unice ale companiei tale.
-							</p>
+                                Lucrăm exclusiv cu kinetoterapeuți și asistenti medicali balneofizioterapie, balneofiziokinetoterapie si recuperare medicala, pregătiți pentru intervenții în mediul corporate și industrial. Oferim sesiuni de masaj terapeutic adaptate spațiului de lucru, cu focus pe ameliorarea tensiunilor cervicale, lombare și a dezechilibrelor musculare frecvente atât în munca de birou, cât și în activitățile din depozite sau zone operaționale, unde postura și efortul fizic pot genera suprasolicitare.
+                            </p>
 							<Button asChild>
 								<Link href={Routes.get('contact')}>
 									Începe Acum
@@ -220,17 +208,17 @@ export default function Page() {
 
 			<section id="servicii" className="section-padding bg-muted/50">
 				<div className="section-container">
-					<div className="text-center max-w-2xl mx-auto mb-12 md:mb-16">
+					<div className="text-center max-w-3xl mx-auto mb-12 md:mb-16">
 						<span className="text-primary font-medium text-sm uppercase tracking-wider">
 							Serviciile Noastre
 						</span>
 						<h2 className="mt-3 mb-4">
-							Opțiuni de Masaj pentru Orice Nevoie
+                            Programe integrate pentru sănătate posturală
 						</h2>
 						<p className="text-muted-foreground text-lg">
-							De la sesiuni rapide de relaxare la experiențe
+							"De la sesiuni rapide de relaxare la experiențe
 							complete de wellness, oferim opțiuni flexibile
-							adaptate culturii locului tău de muncă.
+							adaptate culturii locului tău de muncă."
 						</p>
 					</div>
 
@@ -255,16 +243,13 @@ export default function Page() {
 
 			<section id="beneficii" className="section-padding bg-background">
 				<div className="section-container">
-					<div className="text-center max-w-2xl mx-auto mb-12 md:mb-16">
+					<div className="text-center max-w-3xl mx-auto mb-12 md:mb-16">
 						<span className="text-primary font-medium text-sm uppercase tracking-wider">
 							Beneficii
 						</span>
-						<h2 className="mt-3 mb-4">De Ce Ne Aleg Companiile</h2>
+						<h2 className="mt-3 mb-4">Sănătate / Productivitate / Echilibru</h2>
 						<p className="text-muted-foreground text-lg">
-							Investiția în bunăstarea angajaților nu este doar
-							corectă—este și inteligentă din punct de vedere al
-							afacerilor. Iată cum masajul la birou beneficiază
-							organizația ta.
+                            Investiția în sănătatea angajaților reprezintă o măsură concretă de prevenție și optimizare operațională. Intervențiile realizate la locul de muncă contribuie direct la reducerea factorilor de risc asociați activităților sedentare sau solicitante fizic.
 						</p>
 					</div>
 
@@ -287,10 +272,10 @@ export default function Page() {
 					<div className="mt-16 text-center">
 						<div className="wellness-card inline-block bg-primary-light max-w-2xl">
 							<h3 className="mb-3">
-								Gata să Transformi Locul Tău de Muncă?
+                                Gata să crești performanța echipei tale?
 							</h3>
 							<p className="text-muted-foreground mb-6">
-								Alătură-te sutelor de companii care au făcut din
+								Alătură-te companiilor care au făcut din
 								bunăstarea angajaților o prioritate. Hai să
 								discutăm cum putem ajuta echipa ta să prospere.
 							</p>

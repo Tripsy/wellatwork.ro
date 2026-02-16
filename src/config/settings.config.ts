@@ -26,8 +26,8 @@ function loadSettings(): Settings {
 			)
 				.trim()
 				.split(','),
-			environment: process.env.NODE_ENV || 'development',
-			url: process.env.NEXT_PUBLIC_APP_URL || 'http://wellatwork.test',
+			environment: process.env.NEXT_PUBLIC_NODE_ENV || 'production',
+			url: process.env.NEXT_PUBLIC_APP_URL,
 			name: process.env.NEXT_PUBLIC_APP_NAME,
 		},
 		security: {
@@ -35,7 +35,7 @@ function loadSettings(): Settings {
 				v.trim(),
 			) || [
 				'https://www.wellatwork.ro',
-				'http://wellatwork.test',
+				'http://wellawork.test',
 				'https://main.djcyuviv678xz.amplifyapp.com',
 			],
 		},

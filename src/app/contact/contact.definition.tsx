@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { translateBatch } from '@/config/lang';
+import { translateBatch } from '@/config/translate.setup';
 
 const translations = await translateBatch([
 	'contact.validation.name_invalid',

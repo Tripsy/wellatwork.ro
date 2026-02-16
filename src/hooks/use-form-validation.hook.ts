@@ -3,30 +3,30 @@ import type { ZodSafeParseError, ZodSafeParseSuccess } from 'zod';
 import { accumulateZodErrors } from '@/helpers/form.helper';
 import { useDebouncedEffect } from '@/hooks/use-debounced-effect.hook';
 
-export type ValidationReturnType<K> =
-	| ZodSafeParseSuccess<K>
-	| ZodSafeParseError<K>;
+export type ValidationReturnType<FormValues> =
+	| ZodSafeParseSuccess<FormValues>
+	| ZodSafeParseError<FormValues>;
 
-interface UseFormValidationProps<K> {
-	formValues: K;
-	validate: (values: K) => ValidationReturnType<K>;
+interface UseFormValidationProps<FormValues> {
+	formValues: FormValues;
+	validate: (values: FormValues) => ValidationReturnType<FormValues>;
 	debounceDelay?: number;
 }
 
-export function useFormValidation<T>({
+export function useFormValidation<FormValues>({
 	formValues,
 	validate,
 	debounceDelay = 800,
-}: UseFormValidationProps<T>) {
-	const [errors, setErrors] = useState<Partial<Record<keyof T, string[]>>>(
+}: UseFormValidationProps<FormValues>) {
+	const [errors, setErrors] = useState<Partial<Record<keyof FormValues, string[]>>>(
 		{},
 	);
 	const [touchedFields, setTouchedFields] = useState<
-		Partial<Record<keyof T, boolean>>
+		Partial<Record<keyof FormValues, boolean>>
 	>({});
 	const [submitted, setSubmitted] = useState(false);
 
-	const markFieldAsTouched = useCallback((field: keyof T) => {
+	const markFieldAsTouched = useCallback((field: keyof FormValues) => {
 		setTouchedFields((prev) =>
 			prev[field] ? prev : { ...prev, [field]: true },
 		);
@@ -52,16 +52,16 @@ export function useFormValidation<T>({
 				return;
 			}
 
-			const allErrors = accumulateZodErrors<T>(result.error);
+			const allErrors = accumulateZodErrors<FormValues>(result.error);
 
 			if (submitted) {
 				setErrors(allErrors);
 				return;
 			}
 
-			const visibleErrors: Partial<Record<keyof T, string[]>> = {};
+			const visibleErrors: Partial<Record<keyof FormValues, string[]>> = {};
 
-			for (const key of Object.keys(touchedFields) as (keyof T)[]) {
+			for (const key of Object.keys(touchedFields) as (keyof FormValues)[]) {
 				if (touchedFields[key] && allErrors[key]) {
 					visibleErrors[key] = allErrors[key];
 				}

@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { translate } from '@/config/lang';
+import { translate } from '@/config/translate.setup';
 import { Configuration } from '@/config/settings.config';
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -233,7 +233,7 @@ export default function Page() {
 										{Configuration.get('app.name')}
 									</p>
 									<p className="text-muted-foreground">
-										Email: contact@workwella.ro
+										Email: office@s-life.ro
 									</p>
 								</div>
 							</div>
