@@ -22,9 +22,7 @@ export async function setCookie(
 
 	cookieStore.set(name, value, {
 		httpOnly: options?.httpOnly ?? false,
-		secure:
-			options?.secure ??
-			Configuration.get('app.environment') === 'production',
+		secure: options?.secure ?? Configuration.isEnvironment('production'),
 		path: options?.path ?? '/',
 		sameSite: options?.sameSite ?? 'lax',
 		maxAge: options?.maxAge,

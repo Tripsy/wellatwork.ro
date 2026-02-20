@@ -1,10 +1,8 @@
-import { Mail, MapPin, Phone } from 'lucide-react';
+import { Mail, Phone } from 'lucide-react';
 import type { Metadata } from 'next';
-import { Suspense } from 'react';
 import ContactForm from '@/app/contact/contact-form.component';
-import { LoadingComponent } from '@/components/loading.component';
-import { translate } from '@/config/translate.setup';
 import { Configuration } from '@/config/settings.config';
+import { translate } from '@/config/translate.setup';
 
 export async function generateMetadata(): Promise<Metadata> {
 	return {
@@ -22,8 +20,9 @@ const Page = async () => {
 					<div className="text-center max-w-3xl mx-auto">
 						<h1 className="mb-6">Contactează-ne</h1>
 						<p className="text-lg md:text-xl text-muted-foreground">
-                            Gata să crești performanța echipei tale? Hai să discutăm
-							cum putem sprijini performanța si sănătatea in compania ta.
+							Gata să crești performanța echipei tale? Hai să
+							discutăm cum putem sprijini performanța si sănătatea
+							in compania ta.
 						</p>
 					</div>
 				</div>
@@ -33,13 +32,7 @@ const Page = async () => {
 					<div className="grid lg:grid-cols-5 gap-12 lg:gap-16">
 						<div className="lg:col-span-3">
 							<div className="wellness-card">
-								<Suspense
-									fallback={
-										<LoadingComponent text="Te rugam sa astepti ..." />
-									}
-								>
-									<ContactForm />
-								</Suspense>
+								<ContactForm />
 							</div>
 						</div>
 

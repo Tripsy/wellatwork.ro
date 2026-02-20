@@ -1,4 +1,4 @@
-import { Leaf, Mail, MapPin, Phone } from 'lucide-react';
+import { Leaf, Mail, Phone } from 'lucide-react';
 import Link from 'next/link';
 import Routes from '@/config/routes.setup';
 import { Configuration } from '@/config/settings.config';
@@ -22,7 +22,9 @@ export const Footer = () => {
 							<span>{Configuration.get('app.name')}</span>
 						</Link>
 						<p className="text-muted-foreground text-sm leading-relaxed">
-                            Aducem sănătatea și confortul direct în biroul tău. Transformă spațiul de lucru într-o oază de echilibru.
+							Aducem sănătatea și confortul direct în biroul tău.
+							Transformă spațiul de lucru într-o oază de
+							echilibru.
 						</p>
 					</div>
 
@@ -58,7 +60,7 @@ export const Footer = () => {
 						<ul className="space-y-3">
 							{[
 								'Masaj pe scaun',
-                                'Evaluare posturală',
+								'Evaluare posturală',
 								'Workshop-uri',
 								'Sesiuni ghidate de stretching\n',
 							].map((service) => (
@@ -110,17 +112,21 @@ export const Footer = () => {
 						</Link>
 					</div>
 				</div>
-                <div className="mt-8 text-muted-foreground text-sm font-bold">
-                    <p>
-                        Conceptul "{Configuration.get('app.name')}" este un serviciu oferit de Amalfi Consulting,{' '}
-                        <Link
-                            href={`${Routes.get('unitate-protejata')}`}
-                            className="text-muted-foreground underline cursor-pointer hover:text-primary text-sm transition-colors"
-                        >{' '}
-                            Unitate Protejată Autorizată
-                        </Link>{' '} conform Legii nr. 448/2006 privind protecția și promovarea drepturilor persoanelor cu handicap.</p>
-
-                </div>
+				<div className="mt-8 text-muted-foreground text-sm font-bold">
+					<p>
+						Conceptul "{Configuration.get('app.name')}" este un
+						serviciu oferit de Amalfi Consulting,{' '}
+						<Link
+							href={`${Routes.get('unitate-protejata')}`}
+							className="text-muted-foreground underline cursor-pointer hover:text-primary text-sm transition-colors"
+						>
+							{' '}
+							Unitate Protejată Autorizată
+						</Link>{' '}
+						conform Legii nr. 448/2006 privind protecția și
+						promovarea drepturilor persoanelor cu handicap.
+					</p>
+				</div>
 			</div>
 		</footer>
 	);

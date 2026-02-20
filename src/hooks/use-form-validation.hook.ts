@@ -18,9 +18,9 @@ export function useFormValidation<FormValues>({
 	validate,
 	debounceDelay = 800,
 }: UseFormValidationProps<FormValues>) {
-	const [errors, setErrors] = useState<Partial<Record<keyof FormValues, string[]>>>(
-		{},
-	);
+	const [errors, setErrors] = useState<
+		Partial<Record<keyof FormValues, string[]>>
+	>({});
 	const [touchedFields, setTouchedFields] = useState<
 		Partial<Record<keyof FormValues, boolean>>
 	>({});
@@ -59,9 +59,12 @@ export function useFormValidation<FormValues>({
 				return;
 			}
 
-			const visibleErrors: Partial<Record<keyof FormValues, string[]>> = {};
+			const visibleErrors: Partial<Record<keyof FormValues, string[]>> =
+				{};
 
-			for (const key of Object.keys(touchedFields) as (keyof FormValues)[]) {
+			for (const key of Object.keys(
+				touchedFields,
+			) as (keyof FormValues)[]) {
 				if (touchedFields[key] && allErrors[key]) {
 					visibleErrors[key] = allErrors[key];
 				}

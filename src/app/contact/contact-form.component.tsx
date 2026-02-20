@@ -1,10 +1,10 @@
 'use client';
-import { CheckCircle, CircleX, Send } from 'lucide-react';
-import { useActionState } from 'react';
+
+import React, { useActionState } from 'react';
 import { contactAction, contactValidate } from '@/app/contact/contact.action';
 import {
-	ContactDefaultState,
-	type ContactFormInput,
+	type ContactFormFieldsType,
+	ContactState,
 } from '@/app/contact/contact.definition';
 import { FormCsrf } from '@/components/form/form-csrf';
 import {
@@ -13,16 +13,19 @@ import {
 	FormComponentTextarea,
 } from '@/components/form/form-element.component';
 import { FormError } from '@/components/form/form-error.component';
-import { Configuration } from '@/config/settings.config';
-import { useFormValidation, useFormValues } from '@/hooks';
+import { FormWrapperComponent } from '@/components/form/form-wrapper';
+import { Icons } from '@/components/icon.component';
+import { SuccessContent } from '@/components/status.component';
+import { createHandleChange } from '@/helpers/form.helper';
+import { useElementIds, useFormValidation, useFormValues } from '@/hooks';
 
 export default function ContactForm() {
 	const [state, action, pending] = useActionState(
 		contactAction,
-		ContactDefaultState,
+		ContactState,
 	);
 
-	const [formValues, setFormValues] = useFormValues<ContactFormInput>(
+	const [formValues, setFormValues] = useFormValues<ContactFormFieldsType>(
 		state.values,
 	);
 
@@ -33,41 +36,25 @@ export default function ContactForm() {
 			debounceDelay: 800,
 		});
 
-	const handleChange = (
-		name: keyof ContactFormInput,
-		value: string | boolean,
-	) => {
-		setFormValues((prev) => ({ ...prev, [name]: value }));
-		markFieldAsTouched(name);
-	};
+	const handleChange = createHandleChange(setFormValues, markFieldAsTouched);
 
-	if (state?.situation === 'success') {
-		return (
-			<div className="form-section text-center py-12">
-				<div className="w-16 h-16 rounded-full bg-primary-light flex items-center justify-center mx-auto">
-					<CheckCircle className="w-8 h-8 text-primary" />
-				</div>
-				<h3>Mulțumim!</h3>
-				<p>Mesajul tău a fost trimis; îți vom răspunde în curând.</p>
-			</div>
-		);
+	const elementIds = useElementIds(['name', 'email', 'company', 'message']);
+
+	if (state.situation === 'csrf_error') {
+		throw new Error(state.message as string);
 	}
 
-	if (state?.situation === 'csrf_error') {
+	if (state.situation === 'success') {
 		return (
-			<div className="form-section text-center py-12">
-				<div className="w-16 h-16 rounded-full bg-error/10 flex items-center justify-center mx-auto">
-					<CircleX className="w-8 h-8 text-error" />
-				</div>
-				<h3>Eroare!</h3>
-				<p>{state.message}</p>
-			</div>
+			<SuccessContent
+				title="Mulțumim!"
+				description="Mesajul tău a fost trimis; îți vom răspunde în curând."
+			/>
 		);
 	}
 
 	return (
-		<>
-			<h2 className="text-2xl mb-2">Trimite-ne un mesaj</h2>
+		<FormWrapperComponent title="Trimite-ne un mesaj">
 			<p className="text-muted-foreground mb-8">
 				Completează formularul de mai jos și te vom contacta cât mai
 				curând posibil.
@@ -77,72 +64,95 @@ export default function ContactForm() {
 				onSubmit={markSubmit}
 				className="form-section"
 			>
-				<FormCsrf
-					inputName={Configuration.get('csrf.inputName') as string}
-				/>
+				<FormCsrf />
 
 				<div className="grid sm:grid-cols-2 gap-6">
-					<FormComponentInput
-						labelText="Nume *"
-						id="name"
+					<FormComponentInput<ContactFormFieldsType>
+						id={elementIds.name}
+						labelText="Nume"
 						fieldName="name"
-						fieldValue={formValues.name ?? ''}
-						autoComplete={'name'}
+						fieldValue={formValues.name}
+						isRequired={true}
+						className="pl-8"
 						placeholderText="Marin Razvan"
 						disabled={pending}
 						onChange={(e) => handleChange('name', e.target.value)}
 						error={errors.name}
+						icons={{
+							left: (
+								<Icons.User className="opacity-40 h-4.5 w-4.5" />
+							),
+						}}
 					/>
 
-					<FormComponentInput
-						labelText="Adresa de email *"
-						id="email"
-						fieldType="email"
+					<FormComponentInput<ContactFormFieldsType>
+						id={elementIds.email}
+						labelText="Adresa de email"
 						fieldName="email"
-						fieldValue={formValues.email ?? ''}
-						autoComplete={'email'}
+						fieldValue={formValues.email}
+						isRequired={true}
+						className="pl-8"
 						placeholderText="marin.razvan@companie.ro"
 						disabled={pending}
 						onChange={(e) => handleChange('email', e.target.value)}
 						error={errors.email}
+						icons={{
+							left: (
+								<Icons.Email className="opacity-40 h-4.5 w-4.5" />
+							),
+						}}
 					/>
 				</div>
 
-				<FormComponentInput
+				<FormComponentInput<ContactFormFieldsType>
+					id={elementIds.company}
 					labelText="Numele companiei"
-					id="company"
 					fieldName="company"
 					fieldValue={formValues.company ?? ''}
-					autoComplete={'organization'}
+					className="pl-8"
 					placeholderText="Compania Ta SRL"
 					disabled={pending}
 					onChange={(e) => handleChange('company', e.target.value)}
 					error={errors.company}
+					icons={{
+						left: (
+							<Icons.Company className="opacity-40 h-4.5 w-4.5" />
+						),
+					}}
 				/>
 
-				<FormComponentTextarea
-					labelText="Mesaj *"
-					id="message"
+				<FormComponentTextarea<ContactFormFieldsType>
+					id={elementIds.message}
+					labelText="Mesaj"
 					fieldName="message"
-					fieldValue={formValues.message ?? ''}
-					placeholderText="Spune-ne despre compania ta și ce cauți"
+					fieldValue={formValues.message}
+					isRequired={true}
+					placeholderText="Spune-ne despre compania ta și ce anume iti doresti"
 					disabled={pending}
 					onChange={(e) => handleChange('message', e.target.value)}
 					error={errors.message}
+					rows={8}
 				/>
 
 				<FormComponentSubmit
 					pending={pending}
 					submitted={submitted}
 					errors={errors}
-					buttonLabel="Trimite mesaj"
-					buttonIcon={<Send />}
+					button={{
+						label: 'Trimite mesaj',
+						icon: Icons.Action.Send,
+					}}
 				/>
 
-				{state?.situation === 'error' && state.message && (
-					<FormError message={state.message} />
+				{state.situation === 'error' && state.message && (
+					<FormError>
+						<React.Fragment key="error-content">
+							<Icons.Status.Error />
+							<div>{state.message}</div>
+						</React.Fragment>
+					</FormError>
 				)}
 			</form>
-		</>
+		</FormWrapperComponent>
 	);
 }

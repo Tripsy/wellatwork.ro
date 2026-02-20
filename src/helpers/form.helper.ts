@@ -1,3 +1,4 @@
+import type React from 'react';
 import sanitizeHtml from 'sanitize-html';
 import type { z } from 'zod';
 
@@ -17,13 +18,6 @@ export function accumulateZodErrors<T>(
 	}
 
 	return fieldErrors;
-}
-
-export function getNestedError<T>(
-	errors: Partial<Record<keyof T, string[]>>,
-	path: string,
-): string[] | undefined {
-	return errors[path as keyof T];
 }
 
 export function safeHtml(dirtyHtml: string): string {
@@ -67,4 +61,17 @@ export function safeHtml(dirtyHtml: string): string {
 		allowedSchemes: ['http', 'https', 'mailto'],
 		allowProtocolRelative: false,
 	});
+}
+
+export function createHandleChange<Fields>(
+	setFormValues: React.Dispatch<React.SetStateAction<Fields>>,
+	markFieldAsTouched: (name: keyof Fields) => void,
+) {
+	return <K extends keyof Fields>(name: K, value: Fields[K]) => {
+		setFormValues((prev) => ({
+			...prev,
+			[name]: value,
+		}));
+		markFieldAsTouched(name);
+	};
 }

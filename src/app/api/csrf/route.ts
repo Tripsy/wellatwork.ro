@@ -1,11 +1,11 @@
 import { NextResponse } from 'next/server';
 import { v4 as uuid } from 'uuid';
 import { Configuration } from '@/config/settings.config';
-import type { ResponseFetch } from '@/helpers/api.helper';
 import { getTrackedCookie } from '@/helpers/session.helper';
+import type { ApiResponseFetch } from '@/types/api.type';
 
 type NextResponseCsrf = NextResponse<
-	ResponseFetch<{
+	ApiResponseFetch<{
 		csrfToken: string;
 	}>
 >;
@@ -47,7 +47,7 @@ export async function GET(): Promise<NextResponseCsrf> {
 
 		response.cookies.set(cookieName, csrfToken.value, {
 			httpOnly: true,
-			secure: Configuration.get('app.environment') === 'production',
+			secure: Configuration.isEnvironment('production'),
 			path: '/',
 			sameSite: 'lax',
 			maxAge: cookieMaxAge,
@@ -60,7 +60,7 @@ export async function GET(): Promise<NextResponseCsrf> {
 			String(cookieExpireValue),
 			{
 				httpOnly: true,
-				secure: Configuration.get('app.environment') === 'production',
+				secure: Configuration.isEnvironment('production'),
 				path: '/',
 				sameSite: 'lax',
 				maxAge: cookieMaxAge,

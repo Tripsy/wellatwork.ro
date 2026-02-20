@@ -11,7 +11,7 @@ const ro = {
 	contact,
 	resources,
 	terms,
-    'unitate-protejata': unitate_protejata,
+	'unitate-protejata': unitate_protejata,
 };
 
 export default ro;

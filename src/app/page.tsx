@@ -1,23 +1,23 @@
 import {
-    Armchair,
-    ArrowRight,
-    Building,
-    Clock,
-    GraduationCap,
-    Heart, PersonStanding,
-    Shield,
-    Smile,
-    Sparkles,
-    Timer,
-    TrendingUp,
-    Users,
+	Armchair,
+	ArrowRight,
+	Building,
+	Clock,
+	GraduationCap,
+	Heart,
+	PersonStanding,
+	Shield,
+	Smile,
+	Sparkles,
+	TrendingUp,
+	Users,
 } from 'lucide-react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { translate } from '@/config/translate.setup';
 import Routes from '@/config/routes.setup';
 import { Configuration } from '@/config/settings.config';
+import { translate } from '@/config/translate.setup';
 
 export async function generateMetadata(): Promise<Metadata> {
 	return {
@@ -33,7 +33,7 @@ const services = [
 		icon: Armchair,
 		title: 'Masaj pe scaun',
 		description:
-			'Sesiuni individuale realizate de kinetoterapeuți și asistenți balneo-fizio certificați, adaptate mediului de lucru.'
+			'Sesiuni individuale realizate de kinetoterapeuți și asistenți balneo-fizio certificați, adaptate mediului de lucru.',
 	},
 	{
 		id: 'expressSession',
@@ -41,7 +41,7 @@ const services = [
 		title: 'Evaluare posturală',
 		description:
 			'Analiză individuală a posturii și a tiparelor de mișcare si ' +
-            'sesiuni ghidate de stretching.',
+			'sesiuni ghidate de stretching.',
 	},
 	{
 		id: 'workshops',
@@ -100,16 +100,22 @@ export default function Page() {
 					<div className="max-w-3xl">
 						<div className="inline-flex items-center gap-2 bg-primary-light text-primary px-4 py-2 rounded-full text-sm font-medium mb-6 animate-fade-in">
 							<Sparkles className="w-4 h-4" />
-							<span>Servicii corporate de recuperare și prevenție</span>
+							<span>
+								Servicii corporate de recuperare și prevenție
+							</span>
 						</div>
 
 						<h1 className="mb-6 animate-fade-in-up">
-                            Performanța începe cu sănătatea
+							Performanța începe cu sănătatea
 						</h1>
 
 						<p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-2xl animate-fade-in-up">
-                            Credem că performanța reală începe cu un corp sănătos și echilibrat.
-                            Oferim servicii specializate de terapie și recuperare direct la locul de muncă, sprijinind companiile să prevină și să reducă disconfortul fizic asociat activităților profesionale.
+							Credem că performanța reală începe cu un corp
+							sănătos și echilibrat. Oferim servicii specializate
+							de terapie și recuperare direct la locul de muncă,
+							sprijinind companiile să prevină și să reducă
+							disconfortul fizic asociat activităților
+							profesionale.
 						</p>
 
 						<div className="flex flex-col sm:flex-row gap-4 animate-fade-in-up">
@@ -134,12 +140,24 @@ export default function Page() {
 								Dedicați pentru echilibru la locul de muncă
 							</h2>
 							<p className="text-muted-foreground text-lg mb-6">
-                                Oferim servicii specializate de terapie și recuperare direct la locul de muncă,
-                                sprijinind companiile să prevină și să reducă disconfortul fizic asociat activităților profesionale.
+								Oferim servicii specializate de terapie și
+								recuperare direct la locul de muncă, sprijinind
+								companiile să prevină și să reducă disconfortul
+								fizic asociat activităților profesionale.
 							</p>
 							<p className="text-muted-foreground mb-8">
-                                Lucrăm exclusiv cu kinetoterapeuți și asistenti medicali balneofizioterapie, balneofiziokinetoterapie si recuperare medicala, pregătiți pentru intervenții în mediul corporate și industrial. Oferim sesiuni de masaj terapeutic adaptate spațiului de lucru, cu focus pe ameliorarea tensiunilor cervicale, lombare și a dezechilibrelor musculare frecvente atât în munca de birou, cât și în activitățile din depozite sau zone operaționale, unde postura și efortul fizic pot genera suprasolicitare.
-                            </p>
+								Lucrăm exclusiv cu kinetoterapeuți și asistenti
+								medicali balneofizioterapie,
+								balneofiziokinetoterapie si recuperare medicala,
+								pregătiți pentru intervenții în mediul corporate
+								și industrial. Oferim sesiuni de masaj
+								terapeutic adaptate spațiului de lucru, cu focus
+								pe ameliorarea tensiunilor cervicale, lombare și
+								a dezechilibrelor musculare frecvente atât în
+								munca de birou, cât și în activitățile din
+								depozite sau zone operaționale, unde postura și
+								efortul fizic pot genera suprasolicitare.
+							</p>
 							<Button asChild>
 								<Link href={Routes.get('contact')}>
 									Începe Acum
@@ -213,7 +231,7 @@ export default function Page() {
 							Serviciile Noastre
 						</span>
 						<h2 className="mt-3 mb-4">
-                            Programe integrate pentru sănătate posturală
+							Programe integrate pentru sănătate posturală
 						</h2>
 						<p className="text-muted-foreground text-lg">
 							"De la sesiuni rapide de relaxare la experiențe
@@ -247,9 +265,16 @@ export default function Page() {
 						<span className="text-primary font-medium text-sm uppercase tracking-wider">
 							Beneficii
 						</span>
-						<h2 className="mt-3 mb-4">Sănătate / Productivitate / Echilibru</h2>
+						<h2 className="mt-3 mb-4">
+							Sănătate / Productivitate / Echilibru
+						</h2>
 						<p className="text-muted-foreground text-lg">
-                            Investiția în sănătatea angajaților reprezintă o măsură concretă de prevenție și optimizare operațională. Intervențiile realizate la locul de muncă contribuie direct la reducerea factorilor de risc asociați activităților sedentare sau solicitante fizic.
+							Investiția în sănătatea angajaților reprezintă o
+							măsură concretă de prevenție și optimizare
+							operațională. Intervențiile realizate la locul de
+							muncă contribuie direct la reducerea factorilor de
+							risc asociați activităților sedentare sau
+							solicitante fizic.
 						</p>
 					</div>
 
@@ -272,7 +297,7 @@ export default function Page() {
 					<div className="mt-16 text-center">
 						<div className="wellness-card inline-block bg-primary-light max-w-2xl">
 							<h3 className="mb-3">
-                                Gata să crești performanța echipei tale?
+								Gata să crești performanța echipei tale?
 							</h3>
 							<p className="text-muted-foreground mb-6">
 								Alătură-te companiilor care au făcut din

@@ -1,14 +1,25 @@
 import { type NextRequest, NextResponse } from 'next/server';
 import { contactValidate } from '@/app/contact/contact.action';
-import type { ContactFormInput } from '@/app/contact/contact.definition';
-import { translate } from '@/config/translate.setup';
+import type { ContactFormFieldsType } from '@/app/contact/contact.definition';
 import { Configuration } from '@/config/settings.config';
+import { translate } from '@/config/translate.setup';
 import { accumulateZodErrors } from '@/helpers/form.helper';
-import { prepareEmailContent, sendEmail } from '@/services/email.service';
-import type { EmailContent } from '@/types/template.type';
+import {
+	getEmailService,
+	prepareEmailContent,
+} from '@/services/email/email.service';
+import type { EmailAddressType, EmailContent } from '@/types/email.type';
 
 const ContactEmailContent: EmailContent = {
 	subject: `Contact | ${Configuration.get('app.name')}`,
+	text: `
+        Name: {{ name }}
+        Email: {{ email }}
+        Company: {{ company }}
+        
+        Message:
+        {{ message }}
+    `.trim(),
 	html: `
             <p>Name: {{ name }}</p>
             <p>Email: {{ email }}</p>
@@ -37,7 +48,9 @@ export async function POST(request: NextRequest) {
 			return NextResponse.json({
 				...result,
 				message: await translate('contact.message.error'),
-				errors: accumulateZodErrors<ContactFormInput>(validated.error),
+				errors: accumulateZodErrors<ContactFormFieldsType>(
+					validated.error,
+				),
 			});
 		}
 
@@ -47,17 +60,24 @@ export async function POST(request: NextRequest) {
 			vars: values,
 		});
 
-		await sendEmail(
-			emailContent,
-			{
-				address: Configuration.get('contact.email') as string,
-				name: Configuration.get('app.name') as string,
-			},
-			{
-				address: validated.data.email,
-				name: validated.data.name,
-			},
-		);
+		const emailService = getEmailService();
+
+		await emailService
+			.sendEmail(
+				emailContent,
+				Configuration.get('mail.from') as EmailAddressType,
+				{
+					address: Configuration.get('contact.email') as string,
+					name: Configuration.get('app.name') as string,
+				},
+				{
+					address: validated.data.email,
+					name: validated.data.name,
+				},
+			)
+			.catch((error) => {
+				throw error;
+			});
 
 		return NextResponse.json({
 			...result,
@@ -66,7 +86,7 @@ export async function POST(request: NextRequest) {
 		});
 	} catch (error) {
 		const errorMessage =
-			error instanceof Error ? error.message : 'Eroare necunoscuta';
+			error instanceof Error ? error.message : 'Unknown error';
 
 		console.error(`Failed to send email: ${errorMessage}`);
 

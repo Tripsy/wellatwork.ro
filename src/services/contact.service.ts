@@ -1,9 +1,10 @@
-import type { ContactFormInput } from '@/app/contact/contact.definition';
-import { ApiRequest, type ResponseFetch } from '@/helpers/api.helper';
+import type { ContactFormFieldsType } from '@/app/contact/contact.definition';
+import { ApiRequest } from '@/helpers/api.helper';
+import type { ApiResponseFetch } from '@/types/api.type';
 
 export async function contactProcess(
-	params: ContactFormInput,
-): Promise<ResponseFetch<null> | undefined> {
+	params: ContactFormFieldsType,
+): Promise<ApiResponseFetch<null> | undefined> {
 	return await new ApiRequest()
 		.setRequestMode('same-site')
 		.setRequestInit({

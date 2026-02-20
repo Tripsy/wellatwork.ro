@@ -1,16 +1,6 @@
-import dayjs from 'dayjs';
+import dayjs from '@/config/dayjs.config';
 
-/**
- * Check if a string is a valid date
- *
- * @param {string} date - The date string to check
- * @returns {boolean} - True if the date is valid, false otherwise
- */
-export function isValidDate(date: string): boolean {
-	const parsedDate = new Date(date);
-
-	return !Number.isNaN(parsedDate.getTime());
-}
+const DEFAULT_DATE_FORMAT = 'YYYY-MM-DD';
 
 /**
  * Checks if a value is a valid Date object
@@ -28,46 +18,92 @@ export function isValidDateInstance(date: unknown): date is Date {
 /**
  * Converts a date string to a Date object with strict validation
  *
- * @param dateString - The date string to convert (ISO 8601, RFC 2822, or other supported formats)
  * @returns Valid Date object
  * @throws {Error} If the input is not a valid date string or cannot be parsed
+ * @param date
  */
-export function stringToDate(dateString: string | null): Date | null {
+export function toDateInstance(date: Date | string | null): Date | null {
+	if (!date) {
+		return null;
+	}
+
+	if (date instanceof Date) {
+		return date;
+	}
+
+	const dateString = date.trim();
+
 	if (!dateString) {
 		return null;
 	}
 
-	const trimmedString = dateString.trim();
-
-	if (!trimmedString) {
-		return null;
-	}
-
 	// Special handling for ISO 8601 date-only format (YYYY-MM-DD)
-	if (/^\d{4}-\d{2}-\d{2}$/.test(trimmedString)) {
-		const [year, month, day] = trimmedString.split('-').map(Number);
+	if (/^\d{4}-\d{2}-\d{2}$/.test(dateString)) {
+		const [year, month, day] = dateString.split('-').map(Number);
 		const date = new Date(Date.UTC(year, month - 1, day));
 
 		if (!isValidDateInstance(date)) {
-			throw new Error(`Invalid ISO date: ${trimmedString}`);
+			throw new Error(`Invalid ISO date: ${dateString}`);
 		}
 
 		return date;
 	}
 
 	// General date parsing
-	const parsedDate = new Date(trimmedString);
+	const dateObject = new Date(dateString);
 
-	if (!isValidDateInstance(parsedDate)) {
-		throw new Error(`Invalid date format: ${trimmedString}`);
+	if (!isValidDateInstance(dateObject)) {
+		throw new Error(`Invalid date format: ${dateString}`);
 	}
 
 	// Additional validation for non-ISO formats
-	if (parsedDate.toString() === 'Invalid Date') {
-		throw new Error(`Unparsable date: ${trimmedString}`);
+	if (dateObject.toString() === 'Invalid Date') {
+		throw new Error(`Unparsable date: ${dateString}`);
 	}
 
-	return parsedDate;
+	return dateObject;
+}
+
+/**
+ * Converts a date string to a Dayjs object with strict validation
+ *
+ * @param date
+ */
+export function toDateInstanceCustom(
+	date: Date | string | null,
+): dayjs.Dayjs | null {
+	if (!date) {
+		return null;
+	}
+
+	if (date instanceof Date) {
+		return dayjs(date);
+	}
+
+	const trimmed = date.trim();
+
+	if (!trimmed) {
+		return null;
+	}
+
+	// ISO date-only (YYYY-MM-DD) → UTC midnight
+	if (/^\d{4}-\d{2}-\d{2}$/.test(trimmed)) {
+		const date = dayjs.utc(trimmed, 'YYYY-MM-DD', true);
+
+		if (!date.isValid()) {
+			throw new Error(`Invalid ISO date: ${trimmed}`);
+		}
+
+		return date;
+	}
+
+	const parsed = dayjs(trimmed);
+
+	if (!parsed.isValid()) {
+		throw new Error(`Invalid date format: ${trimmed}`);
+	}
+
+	return parsed;
 }
 
 /**
@@ -142,12 +178,12 @@ export function getValidDate(date: unknown): Date | undefined {
  * @returns Formatted string or null
  */
 export function formatDate(
-	value: string | number | Date | null | undefined,
+	value: string | Date | null | undefined,
 	format?: 'default' | 'date-time' | string,
 	options?: {
 		strict?: boolean;
 	},
-): string | undefined {
+): string | null {
 	// Handle empty values
 	if (
 		value === null ||
@@ -158,7 +194,7 @@ export function formatDate(
 			throw new Error('Invalid date: null/undefined');
 		}
 
-		return undefined;
+		return null;
 	}
 
 	const date = dayjs(value);
@@ -169,13 +205,12 @@ export function formatDate(
 			throw new Error(`Invalid date: ${value}`);
 		}
 
-		return undefined;
+		return null;
 	}
 
-	// Apply formatting
 	switch (format) {
 		case 'default':
-			return date.format('YYYY-MM-DD');
+			return date.format(DEFAULT_DATE_FORMAT);
 		case 'date-time':
 			return date.format('DD-MM-YYYY, hh:mm A');
 		default:

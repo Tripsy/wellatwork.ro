@@ -6,38 +6,24 @@ import {
 
 type Settings = { [key: string]: ObjectValue };
 
-let settings: Settings;
-
-function getSettings(): Settings {
-	if (!settings) {
-		settings = loadSettings();
-	}
-
-	return settings;
-}
-
 function loadSettings(): Settings {
 	return {
 		app: {
 			debug: process.env.NEXT_PUBLIC_APP_DEBUG === 'true',
 			language: process.env.NEXT_PUBLIC_APP_LANGUAGE || 'en',
 			languageSupported: (
-				process.env.NEXT_PUBLIC_APP_SUPPORTED_LANGUAGES || 'ro'
+				process.env.NEXT_PUBLIC_APP_SUPPORTED_LANGUAGES || 'en'
 			)
 				.trim()
 				.split(','),
-			environment: process.env.NEXT_PUBLIC_NODE_ENV || 'production',
+			environment: process.env.NODE_ENV || 'production',
 			url: process.env.NEXT_PUBLIC_APP_URL,
 			name: process.env.NEXT_PUBLIC_APP_NAME,
 		},
 		security: {
-			allowedOrigins: process.env.ALLOWED_ORIGINS?.split(',').map((v) =>
-				v.trim(),
-			) || [
-				'https://www.wellatwork.ro',
-				'http://wellawork.test',
-				'https://main.djcyuviv678xz.amplifyapp.com',
-			],
+			allowedOrigins: process.env.NEXT_PUBLIC_ALLOWED_ORIGINS?.split(
+				',',
+			).map((v) => v.trim()) || ['http://localhost'],
 		},
 		csrf: {
 			cookieName: 'x-csrf-secret',
@@ -45,15 +31,16 @@ function loadSettings(): Settings {
 			inputName: 'x-csrf-token',
 		},
 		mail: {
-			host: process.env.MAIL_HOST || '127.0.0.1',
+			provider: process.env.MAIL_PROVIDER || 'ses', // 'smtp' or 'ses'
+			from: {
+				name: process.env.NEXT_PUBLIC_APP_NAME,
+				address: process.env.MAIL_FROM_ADDRESS,
+			},
+			host: process.env.MAIL_HOST,
 			port: parseInt(process.env.MAIL_PORT || '2525', 10),
-			encryption: process.env.encryption || 'tls',
+			encryption: process.env.MAIL_ENCRYPTION === 'true',
 			username: process.env.MAIL_USERNAME || '',
 			password: process.env.MAIL_PASSWORD || '',
-		},
-		middleware: {
-			rate_limit_window: Number(process.env.RATE_LIMIT_WINDOW) || 60, // seconds
-			max_requests: Number(process.env.MAX_REQUESTS) || 100, // Max requests per window
 		},
 		redis: {
 			host: process.env.REDIS_HOST || 'localhost',
@@ -66,17 +53,19 @@ function loadSettings(): Settings {
 		google: {
 			gtmId: process.env.NEXT_PUBLIC_GOOGLE_GTM_ID || '',
 		},
+		aws: {
+			region: process.env.DEPLOY_AWS_REGION || 'eu-north-1',
+		},
 		contact: {
 			email:
-				process.env.NEXT_PUBLIC_APP_EMAIL ||
-				'test-team20240828@yopmail.com',
+				process.env.CONTACT_EMAIL || process.env.NEXT_PUBLIC_APP_EMAIL,
 		},
 	};
 }
 
 export const Configuration = {
 	get: <T = ObjectValue>(key: string): T | undefined => {
-		const value = getObjectValue(getSettings(), key);
+		const value = getObjectValue(loadSettings(), key);
 
 		if (value === undefined) {
 			console.warn(`Configuration key not found: ${key}`);
@@ -86,7 +75,7 @@ export const Configuration = {
 	},
 
 	set: (key: string, value: ObjectValue): void => {
-		const success = setObjectValue(getSettings(), key, value);
+		const success = setObjectValue(loadSettings(), key, value);
 
 		if (!success) {
 			console.warn(`Failed to set configuration key: ${key}`);
@@ -100,7 +89,7 @@ export const Configuration = {
 	},
 
 	environment: () => {
-		return Configuration.get('app.env') as string;
+		return Configuration.get('app.environment') as string;
 	},
 
 	isEnvironment: (value: string) => {

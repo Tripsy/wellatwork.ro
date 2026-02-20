@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
-import { translate } from '@/config/translate.setup';
 import { Configuration } from '@/config/settings.config';
+import { translate } from '@/config/translate.setup';
 
 export async function generateMetadata(): Promise<Metadata> {
 	return {

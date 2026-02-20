@@ -1,12 +1,31 @@
 'use client';
 
+import Link from 'next/link';
 import { useEffect } from 'react';
-import { ErrorComponent } from '@/components/error.component';
+import { ErrorComponent } from '@/components/status.component';
+import { Button } from '@/components/ui/button';
+import Routes from '@/config/routes.setup';
 
-export default function ErrorBoundary({ error }: { error: Error }) {
+export default function ErrorBoundary({
+	error,
+	reset,
+}: {
+	error: Error;
+	reset: () => void;
+}) {
 	useEffect(() => {
 		console.error('Error:', error);
 	}, [error]);
 
-	return <ErrorComponent text={error.message} />;
+	return (
+		<ErrorComponent description={error.message}>
+			<div className="mt-8 text-center">
+				<Button onClick={() => reset()}>Try Again</Button> or go back to
+				the{' '}
+				<Link href={Routes.get('home')} className="underline link">
+					home page
+				</Link>
+			</div>
+		</ErrorComponent>
+	);
 }

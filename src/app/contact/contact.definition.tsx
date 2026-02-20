@@ -28,18 +28,23 @@ export const ContactSchema = z.object({
 		.trim(),
 });
 
-export type ContactFormInput = z.input<typeof ContactSchema>;
-
-export type ContactSituation = 'success' | 'error' | 'csrf_error' | null;
-
-export type ContactState = {
-	values: ContactFormInput;
-	errors: Partial<Record<keyof ContactFormInput, string[]>>;
-	message: string | null;
-	situation: ContactSituation;
+export type ContactFormFieldsType = {
+	name: string;
+	email: string;
+	company?: string;
+	message: string;
 };
 
-export const ContactDefaultState: ContactState = {
+export type ContactSituationType = 'success' | 'error' | 'csrf_error' | null;
+
+export type ContactStateType = {
+	values: ContactFormFieldsType;
+	errors: Partial<Record<keyof ContactFormFieldsType, string[]>>;
+	message: string | null;
+	situation: ContactSituationType;
+};
+
+export const ContactState: ContactStateType = {
 	values: {
 		name: '',
 		email: '',

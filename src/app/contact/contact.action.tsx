@@ -1,14 +1,15 @@
 import {
-	type ContactFormInput,
+	type ContactFormFieldsType,
 	ContactSchema,
-	type ContactState,
+	type ContactStateType,
 } from '@/app/contact/contact.definition';
 import { Configuration } from '@/config/settings.config';
+import { translate } from '@/config/translate.setup';
 import { accumulateZodErrors } from '@/helpers/form.helper';
 import { isValidCsrfToken } from '@/helpers/session.helper';
 import { contactProcess } from '@/services/contact.service';
 
-export function contactFormValues(formData: FormData): ContactFormInput {
+export function contactFormValues(formData: FormData): ContactFormFieldsType {
 	return {
 		name: formData.get('name') as string,
 		email: formData.get('email') as string,
@@ -17,18 +18,18 @@ export function contactFormValues(formData: FormData): ContactFormInput {
 	};
 }
 
-export function contactValidate(values: ContactFormInput) {
+export function contactValidate(values: ContactFormFieldsType) {
 	return ContactSchema.safeParse(values);
 }
 
 export async function contactAction(
-	state: ContactState,
+	state: ContactStateType,
 	formData: FormData,
-): Promise<ContactState> {
+): Promise<ContactStateType> {
 	const values = contactFormValues(formData);
 	const validated = contactValidate(values);
 
-	const result: ContactState = {
+	const result: ContactStateType = {
 		...state, // Spread existing state
 		values, // Override with new values
 		message: null,
@@ -43,7 +44,7 @@ export async function contactAction(
 	if (!(await isValidCsrfToken(csrfToken))) {
 		return {
 			...result,
-			message: Configuration.get('error.csrf') as string,
+			message: await translate('app.error.csrf'),
 			situation: 'csrf_error',
 		};
 	}
@@ -52,7 +53,7 @@ export async function contactAction(
 		return {
 			...result,
 			situation: 'error',
-			errors: accumulateZodErrors<ContactFormInput>(validated.error),
+			errors: accumulateZodErrors<ContactFormFieldsType>(validated.error),
 		};
 	}
 
@@ -69,7 +70,7 @@ export async function contactAction(
 		return {
 			...result,
 			errors: {},
-			message: Configuration.get('contact.message.error') as string,
+			message: await translate('app.error.form'),
 			situation: 'error',
 		};
 	}

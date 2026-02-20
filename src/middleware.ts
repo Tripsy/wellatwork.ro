@@ -1,6 +1,6 @@
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
-import RoutesConfig from '@/config/routes.setup';
+import Routes from '@/config/routes.setup';
 import { Configuration } from '@/config/settings.config';
 
 function blockedOrigin(req: NextRequest) {
@@ -12,12 +12,12 @@ function blockedOrigin(req: NextRequest) {
 	const referer = req.headers.get('referer');
 
 	if (!origin && !referer) {
-        return false;
-    }
+		return false;
+	}
 
 	if (origin && allowedOrigins.includes(origin)) {
-        return false;
-    }
+		return false;
+	}
 
 	if (referer) {
 		try {
@@ -48,7 +48,7 @@ export function middleware(req: NextRequest) {
 	}
 
 	const pathname = req.nextUrl.pathname;
-	const routeMatch = RoutesConfig.match(pathname);
+	const routeMatch = Routes.match(pathname);
 
 	if (!routeMatch) {
 		return responseSuccess();

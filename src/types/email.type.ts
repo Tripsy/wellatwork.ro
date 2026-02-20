@@ -15,3 +15,22 @@ export type EmailTemplate = {
 	content: EmailContent;
 	vars?: TemplateVars;
 };
+
+export type EmailAddressType = {
+	name: string;
+	address: string;
+};
+
+export enum EmailProvider {
+	SMTP = 'smtp',
+	SES = 'ses',
+}
+
+export interface EmailService {
+	sendEmail(
+		content: EmailContent,
+		from: EmailAddressType,
+		to: EmailAddressType,
+		replyTo: EmailAddressType,
+	): Promise<void>;
+}
